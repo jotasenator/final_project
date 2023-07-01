@@ -66,7 +66,9 @@
         {% endif %}
       </div>
     </nav>
+    {% if user.is_authenticated %}
     <h1 class="d-flex justify-content-center">ITMT</h1>
+    {% endif %}
 
     <div class="body">{% block body %} {% endblock %}</div>
   </body>

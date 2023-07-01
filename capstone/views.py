@@ -6,6 +6,9 @@ from django.urls import reverse
 
 from .models import User
 
+from django.contrib.auth.password_validation import validate_password
+from django.core.exceptions import ValidationError
+
 
 def index(request, unknown_path=None):
     if unknown_path is not None:
@@ -44,12 +47,77 @@ def register(request):
         username = request.POST["username"]
         email = request.POST["email"]
 
+        # Ensure username is not empty
+        if not username:
+            return render(
+                request,
+                "capstone/register.html",
+                {"message": "Username is required.", "username": username},
+            )
+
+        # Ensure email is not empty
+        if not email:
+            return render(
+                request,
+                "capstone/register.html",
+                {"message": "Email is required.", "username": username, "email": email},
+            )
+
+        # Ensure password is not empty
+        password = request.POST["password"]
+        if not password:
+            return render(
+                request,
+                "capstone/register.html",
+                {
+                    "message": "Password is required.",
+                    "username": username,
+                    "email": email,
+                    "password": password,
+                },
+            )
+
+        # Ensure confirmation is not empty
+        confirmation = request.POST["confirmation"]
+        if not confirmation:
+            return render(
+                request,
+                "capstone/register.html",
+                {
+                    "message": "Confirmation is required.",
+                    "username": username,
+                    "email": email,
+                    "password": password,
+                },
+            )
+
         # Ensure password matches confirmation
         password = request.POST["password"]
         confirmation = request.POST["confirmation"]
         if password != confirmation:
             return render(
-                request, "capstone/register.html", {"message": "Passwords must match."}
+                request,
+                "capstone/register.html",
+                {
+                    "message": "Passwords must match.",
+                    "username": username,
+                    "email": email,
+                    "password": password,
+                },
+            )
+
+        # Validate password
+        try:
+            validate_password(password)
+        except ValidationError as e:
+            return render(
+                request,
+                "capstone/register.html",
+                {
+                    "message": e.messages[0],
+                    "username": username,
+                    "email": email,
+                },
             )
 
         # Attempt to create new user
