@@ -1,5 +1,13 @@
 {% extends "capstone/layout.html" %}
 
 {% block body %}
-    TODO
+    
+        {% if user.is_authenticated %}
+        <h2>{{user.username}}</h2>
+        {% if user.username == "admin"%}
+        {% include "capstone/admin.html" %}
+        {% else %}
+        {% include "capstone/user.html" %}
+        {% endif %}
+        {% endif %}
 {% endblock %}
