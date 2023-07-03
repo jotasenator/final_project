@@ -11,6 +11,8 @@ from django.core.exceptions import ValidationError
 
 from django.contrib import messages
 
+from django.contrib.auth.decorators import login_required
+
 
 def index(request, unknown_path=None):
     if unknown_path is not None:
@@ -138,6 +140,7 @@ def register(request):
         return render(request, "capstone/register.html")
 
 
+@login_required
 def submit_issue(request):
     print("submit_issue called")
     if request.method == "POST":
@@ -149,6 +152,7 @@ def submit_issue(request):
         print(f"user:{user}")
         new_issue = Issue(issue=issue, description=description, user=user)
         new_issue.save()
+        print(f"new_issue:{new_issue}")
         messages.success(request, "Your issue was submitted successfully!")
         return redirect("index")
     else:
