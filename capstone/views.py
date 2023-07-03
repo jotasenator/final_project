@@ -4,10 +4,12 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.urls import reverse
 
-from .models import User
+from .models import User, Issue
 
 from django.contrib.auth.password_validation import validate_password
 from django.core.exceptions import ValidationError
+
+from django.contrib import messages
 
 
 def index(request, unknown_path=None):
@@ -134,3 +136,20 @@ def register(request):
         return HttpResponseRedirect(reverse("index"))
     else:
         return render(request, "capstone/register.html")
+
+
+def submit_issue(request):
+    print("submit_issue called")
+    if request.method == "POST":
+        user = request.user
+        issue = request.POST["issue"]
+        description = request.POST["description"]
+        print(f"issue:{issue}")
+        print(f"description:{description}")
+        print(f"user:{user}")
+        new_issue = Issue(issue=issue, description=description, user=user)
+        new_issue.save()
+        messages.success(request, "Your issue was submitted successfully!")
+        return redirect("index")
+    else:
+        return render(request, "capstone/user.html")
