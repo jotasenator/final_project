@@ -157,3 +157,11 @@ def submit_issue(request):
         return redirect("index")
     else:
         return render(request, "capstone/user.html")
+
+
+@login_required
+def reports(request):
+    issues = Issue.objects.all().order_by("-created_at")
+    print(f"reports {issues}")
+    return render(request, "capstone/reports.html", {"issues": issues})
+

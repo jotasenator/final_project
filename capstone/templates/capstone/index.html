@@ -3,7 +3,7 @@
 {% block body %}
     
         {% if user.is_authenticated %}
-            {% if user.username == "admin"%}
+            {% if user.username == "admin" %}
                 {% include "capstone/admin.html" %}
             {% else %}
                 {% include "capstone/user.html" %}

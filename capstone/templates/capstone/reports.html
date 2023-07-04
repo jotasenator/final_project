@@ -1,0 +1,28 @@
+{% extends "capstone/layout.html" %} 
+{% block body %} 
+{% if user.is_authenticated %} 
+{% if user.username == 'admin' %}
+<div class="ml-5">
+  <h1>Reports</h1>
+  <div class="row">
+    {% for issue in issues %}
+    <div class="col-sm-6">
+      <div class="card mb-4">
+        <div class="card-body">
+          <h5 class="card-title">{{ issue.issue }}</h5>
+          <h6 class="card-subtitle mb-2 text-muted">
+            <a href="#">{{ issue.user }}</a>
+          </h6>
+          <p class="card-text">{{ issue.description }}</p>
+          <p class="card-text">
+            <small class="text-muted">{{ issue.created_at }}</small>
+          </p>
+        </div>
+      </div>
+    </div>
+    {% endfor %} 
+    </div>
+</div>
+{% endif %} 
+{% endif %} 
+{% endblock %}

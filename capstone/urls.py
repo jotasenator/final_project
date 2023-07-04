@@ -9,5 +9,7 @@ urlpatterns = [
     path("logout", views.logout_view, name="logout"),
     path("register", views.register, name="register"),
     path("submit_issue", views.submit_issue, name="submit_issue"),
+    path("reports", views.reports, name="reports"),
+
     path("<path:unknown_path>", views.index),  # unknown_path should remain last !!!
 ]
