@@ -40,41 +40,41 @@
         required
       />
     </div>
-    <div class="form-group">
-      <label for="phone">Phone:</label>
-      <input
-        class="form-control"
-        type="tel"
-        name="phone"
-        id="phone"
-        value="{{phone}}"
-        required
-      />
-      <span id="valid-msg" class="d-none text-success">✓ Valid</span>
-      <span id="error-msg" class="d-none text-danger"></span>
+    <div class="d-flex align-items-center justify-content-between">
+      <div class="form-group">
+        <label style="display:block" for="phone">Phone:</label>
+        <input
+          class="form-control"
+          type="tel"
+          name="phone"
+          id="phone"
+          value="{{phone}}"
+          required
+        />
+        <span id="valid-msg" class="d-none text-success">✓ Valid</span>
+        <span id="error-msg" class="d-none text-danger"></span>
+      </div>
+      <div class="form-group">
+        <label for="picture">Picture:</label>
+        <input
+          class="form-control"
+          type="file"
+          name="picture"
+          id="picture"
+          value="{{picture}}"
+          accept="image/*"
+        />
+      </div>
     </div>
-    <div class="form-group">
-      <label for="picture">Picture:</label>
-      <input
-        class="form-control"
-        type="file"
-        name="picture"
-        id="picture"
-        value="{{picture}}"
-        accept="image/*"
-      />
-    </div>
-    <button type="submit" class="btn btn-primary">Submit</button>
+    <button type="submit" class="btn btn-primary mt-3">Submit</button>
   </form>
 
   {% if message %}
   <p class="alert alert-success mt-3">{{ message }}</p>
-  {% endif %}
-
+  {% endif %} 
   {% if error %}
   <p class="alert alert-danger mt-3">{{ error }}</p>
   {% endif %}
-
 </div>
 {% endif %} 
 {% endif %}
@@ -84,29 +84,35 @@
     messageElement && messageElement.classList.add("d-none");
   }, 2500);
 
-
   //https://intl-tel-input.com/examples/validation.html
   const input = document.querySelector("#phone");
   const errorMsg = document.querySelector("#error-msg");
   const validMsg = document.querySelector("#valid-msg");
-  
+
   // here, the index maps to the error code returned from getValidationError - see readme
-  const errorMap = ["Invalid number", "Invalid country code", "Too short", "Too long", "Invalid number"];
-  
+  const errorMap = [
+    "Invalid number",
+    "Invalid country code",
+    "Too short",
+    "Too long",
+    "Invalid number",
+  ];
+
   const iti = window.intlTelInput(input, {
-      utilsScript: "https://cdn.jsdelivr.net/npm/intl-tel-input@18.1.1/build/js/utils.js",
-      preferredCountries: [ "cu","us" ],    
-    });
-    
+    utilsScript:
+      "https://cdn.jsdelivr.net/npm/intl-tel-input@18.1.1/build/js/utils.js",
+    preferredCountries: ["cu", "us"],
+  });
+
   const reset = () => {
     input.classList.remove("error");
     errorMsg.innerHTML = "";
     errorMsg.classList.add("d-none");
     validMsg.classList.add("d-none");
   };
-  
+
   // on blur: validate
-  input.addEventListener('blur', () => {
+  input.addEventListener("blur", () => {
     reset();
     if (input.value.trim()) {
       if (iti.isValidNumber()) {
@@ -119,9 +125,9 @@
       }
     }
   });
-  
+
   // on keyup / change flag: reset
-  input.addEventListener('change', reset);
-  input.addEventListener('keyup', reset);
+  input.addEventListener("change", reset);
+  input.addEventListener("keyup", reset);
 </script>
 {% endblock %}
