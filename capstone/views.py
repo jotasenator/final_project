@@ -168,7 +168,13 @@ def reports(request):
 
 @login_required
 def users(request):
-    return render(request, "capstone/users.html")
+    users = (
+        User.objects.all()
+        .exclude(is_superuser=True)
+        .exclude(username="admin")
+        .order_by("username")
+    )
+    return render(request, "capstone/users.html", {"users": users})
 
 
 @login_required
