@@ -4,7 +4,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.urls import reverse
 
-from .models import User, Issue
+from .models import User, Issue, Profile
 
 from django.contrib.auth.password_validation import validate_password
 from django.core.exceptions import ValidationError
@@ -165,3 +165,45 @@ def reports(request):
     print(f"reports {issues}")
     return render(request, "capstone/reports.html", {"issues": issues})
 
+
+@login_required
+def users(request):
+    return render(request, "capstone/users.html")
+
+
+@login_required
+def create_profile(request):
+    if request.method == "POST":
+        name = request.POST["name"]
+        username = request.POST["username"]
+        address = request.POST["address"]
+        phone = request.POST["phone"]
+        picture = request.FILES.get("picture")
+
+        if User.objects.filter(username=username).exists():
+            return render(
+                request,
+                "capstone/create_profile.html",
+                {
+                    "error": "A user with that username already exists",
+                    "name": name,
+                    "address": address,
+                    "phone": phone,
+                    "picture": picture,
+                },
+            )
+
+        user = User.objects.create_user(username=username)
+
+        profile = Profile(
+            name=name, user=user, address=address, phone=phone, picture=picture
+        )
+        profile.save()
+
+        return render(
+            request,
+            "capstone/create_profile.html",
+            {"message": "Profile created successfully"},
+        )
+
+    return render(request, "capstone/create_profile.html")

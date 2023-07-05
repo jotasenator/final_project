@@ -1,0 +1,9 @@
+{% extends "capstone/layout.html" %} {% block body %}
+{% if user.is_authenticated %} 
+{% if user.username == 'admin' %}
+<div class="ml-5 mr-5">
+<h3>Users</h3>
+</div>
+{% endif %}
+{% endif %}
+{% endblock %}
