@@ -19,6 +19,7 @@ class Profile(models.Model):
     address = models.CharField(max_length=200)
     email = models.EmailField(default="")
     phone = models.CharField(max_length=30)
+    country_code = models.CharField(max_length=10, default="")
     picture = models.ImageField(
         upload_to="profile_pictures/"
     )  # /media/profile_pictures/user1.jpg

@@ -94,6 +94,7 @@ def create_profile(request):
         address = request.POST["address"]
         email = request.POST["email"]
         phone = request.POST["phone"]
+        country_code = request.POST["country_code"]
         password = request.POST["password"]
         confirm_password = request.POST["confirm_password"]
         picture = request.FILES.get("picture")
@@ -108,6 +109,7 @@ def create_profile(request):
                     "address": address,
                     "email": email,
                     "phone": phone,
+                    "country_code": country_code,
                     "picture": picture,
                     "password": password,
                     "confirm_password": confirm_password,
@@ -124,6 +126,7 @@ def create_profile(request):
                     "address": address,
                     "email": email,
                     "phone": phone,
+                    "country_code": country_code,
                     "picture": picture,
                     "password": password,
                 },
@@ -132,12 +135,13 @@ def create_profile(request):
         user = User.objects.create_user(username=username, password=password)
 
         profile = Profile(
-            name=name,
-            user=user,
-            address=address,
-            phone=phone,
-            picture=picture,
-            email=email,
+            name = name,
+            user = user,
+            address = address,
+            phone = phone,
+            country_code = country_code,
+            picture = picture,
+            email = email,
         )
         profile.save()
 
