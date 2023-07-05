@@ -2,7 +2,7 @@
 {% block body %} 
 {% if user.is_authenticated %} 
 {% if user.username == 'admin' %}
-<div class="ml-5">
+<div class="ml-5 mr-5">
   <h1>Reports</h1>
   <div class="row">
     {% for issue in issues %}
