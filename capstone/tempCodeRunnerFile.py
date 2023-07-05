@@ -1,11 +1,3 @@
-from django.urls import path
-
-from . import views
-
-from django.conf import settings
-from django.conf.urls.static import static
-
-
 urlpatterns = [
     path("", views.index, name="index"),
     path("login", views.login_view, name="login"),
@@ -15,4 +7,6 @@ urlpatterns = [
     path("users", views.users, name="users"),
     path("create_profile", views.create_profile, name="create_profile"),
     path("user_profile/<str:username>", views.user_profile, name="user_profile"),
-] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+    path("<path:unknown_path>", views.index),  # unknown_path should remain last !!!
+]

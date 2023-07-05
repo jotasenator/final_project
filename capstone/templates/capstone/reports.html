@@ -11,7 +11,7 @@
         <div class="card-body">
           <h5 class="card-title">{{ issue.issue }}</h5>
           <h6 class="card-subtitle mb-2 text-muted">
-            <a href="#">{{ issue.user }}</a>
+            <a href="{% url 'user_profile' issue.user %}">{{ issue.user }}</a>
           </h6>
           <p class="card-text">{{ issue.description }}</p>
           <p class="card-text">
