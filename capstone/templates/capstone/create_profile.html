@@ -5,7 +5,7 @@
 
 <div class="container mt-5 border p-3 br-3">
   <h3 class="mb-3">Create profile</h3>
-  <form method="post">
+  <form method="post" enctype="multipart/form-data">
     {% csrf_token %}
     <div class="form-group">
       <label for="name">Fullname:</label>
@@ -40,7 +40,7 @@
         required
       />
     </div>
-    <div class="d-flex align-items-center justify-content-between">
+    <div class="d-flex  justify-content-between">
       <div class="form-group">
         <label style="display:block" for="phone">Phone:</label>
         <input
@@ -56,6 +56,8 @@
       </div>
       <div class="form-group">
         <label for="picture">Picture:</label>
+        <div id="dropzone" class="border p-3 text-center">
+          Drag and drop a picture here or click to select a file.
         <input
           class="form-control"
           type="file"
@@ -64,6 +66,7 @@
           value="{{picture}}"
           accept="image/*"
         />
+        </div>
       </div>
     </div>
     <button type="submit" class="btn btn-primary mt-3">Submit</button>
@@ -129,5 +132,35 @@
   // on keyup / change flag: reset
   input.addEventListener("change", reset);
   input.addEventListener("keyup", reset);
+
+  //drag and drop
+  const dropzone = document.querySelector("#dropzone");
+  const pictureInput = document.querySelector("#picture");
+
+  // Handle click event on the dropzone
+  dropzone.addEventListener("click", () => {
+    pictureInput.click();
+  });
+
+  // Handle dragover event on the dropzone
+  dropzone.addEventListener("dragover", (event) => {
+    event.preventDefault();
+    dropzone.classList.add("bg-light");
+  });
+
+  // Handle dragleave event on the dropzone
+  dropzone.addEventListener("dragleave", () => {
+    dropzone.classList.remove("bg-light");
+  });
+
+  // Handle drop event on the dropzone
+  dropzone.addEventListener("drop", (event) => {
+    event.preventDefault();
+    dropzone.classList.remove("bg-light");
+
+    if (event.dataTransfer.files.length) {
+      pictureInput.files = event.dataTransfer.files;
+    }
+  });
 </script>
 {% endblock %}
