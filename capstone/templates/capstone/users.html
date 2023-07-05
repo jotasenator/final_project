@@ -7,7 +7,7 @@
   <ul class="ml-3">
     {% for user in users %}
     <li>
-      <a class=' text-decoration-none fs-24' href="#">{{ user }}</a>
+      <a class=' text-decoration-none fs-24' href="{% url 'user_profile' user %}">{{ user }}</a>
       {% comment %} <a href="{% url 'category' category %}">{{ user }}</a> {% endcomment %}
     </li>
     {% endfor %}

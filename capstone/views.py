@@ -46,98 +46,7 @@ def logout_view(request):
     return HttpResponseRedirect(reverse("index"))
 
 
-def register(request):
-    if request.method == "POST":
-        username = request.POST["username"]
-        email = request.POST["email"]
-
-        # Ensure username is not empty
-        if not username:
-            return render(
-                request,
-                "capstone/register.html",
-                {"message": "Username is required.", "username": username},
-            )
-
-        # Ensure email is not empty
-        if not email:
-            return render(
-                request,
-                "capstone/register.html",
-                {"message": "Email is required.", "username": username, "email": email},
-            )
-
-        # Ensure password is not empty
-        password = request.POST["password"]
-        if not password:
-            return render(
-                request,
-                "capstone/register.html",
-                {
-                    "message": "Password is required.",
-                    "username": username,
-                    "email": email,
-                    "password": password,
-                },
-            )
-
-        # Ensure confirmation is not empty
-        confirmation = request.POST["confirmation"]
-        if not confirmation:
-            return render(
-                request,
-                "capstone/register.html",
-                {
-                    "message": "Confirmation is required.",
-                    "username": username,
-                    "email": email,
-                    "password": password,
-                },
-            )
-
-        # Ensure password matches confirmation
-        password = request.POST["password"]
-        confirmation = request.POST["confirmation"]
-        if password != confirmation:
-            return render(
-                request,
-                "capstone/register.html",
-                {
-                    "message": "Passwords must match.",
-                    "username": username,
-                    "email": email,
-                    "password": password,
-                },
-            )
-
-        # Validate password
-        try:
-            validate_password(password)
-        except ValidationError as e:
-            return render(
-                request,
-                "capstone/register.html",
-                {
-                    "message": e.messages[0],
-                    "username": username,
-                    "email": email,
-                },
-            )
-
-        # Attempt to create new user
-        try:
-            user = User.objects.create_user(username, email, password)
-            user.save()
-        except IntegrityError:
-            return render(
-                request,
-                "capstone/register.html",
-                {"message": "Username already taken."},
-            )
-        login(request, user)
-        return HttpResponseRedirect(reverse("index"))
-    else:
-        return render(request, "capstone/register.html")
+# register is no need it cause new users will be addressed by the admin, pass included
 
 
 @login_required
@@ -183,7 +92,10 @@ def create_profile(request):
         name = request.POST["name"]
         username = request.POST["username"]
         address = request.POST["address"]
+        email = request.POST["email"]
         phone = request.POST["phone"]
+        password = request.POST["password"]
+        confirm_password = request.POST["confirm_password"]
         picture = request.FILES.get("picture")
 
         if User.objects.filter(username=username).exists():
@@ -194,15 +106,38 @@ def create_profile(request):
                     "error": "A user with that username already exists",
                     "name": name,
                     "address": address,
+                    "email": email,
                     "phone": phone,
                     "picture": picture,
+                    "password": password,
+                    "confirm_password": confirm_password,
                 },
             )
 
-        user = User.objects.create_user(username=username)
+        if password != confirm_password:
+            return render(
+                request,
+                "capstone/create_profile.html",
+                {
+                    "error": "Passwords do not match",
+                    "name": name,
+                    "address": address,
+                    "email": email,
+                    "phone": phone,
+                    "picture": picture,
+                    "password": password,
+                },
+            )
+
+        user = User.objects.create_user(username=username, password=password)
 
         profile = Profile(
-            name=name, user=user, address=address, phone=phone, picture=picture
+            name=name,
+            user=user,
+            address=address,
+            phone=phone,
+            picture=picture,
+            email=email,
         )
         profile.save()
 
@@ -213,3 +148,9 @@ def create_profile(request):
         )
 
     return render(request, "capstone/create_profile.html")
+
+
+@login_required
+def user_profile(request, username):
+    profile = Profile.objects.get(user__username=username)
+    return render(request, "capstone/user_profile.html", {"profile": profile})

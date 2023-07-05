@@ -12,10 +12,13 @@ class Issue(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
 
+
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     name = models.CharField(max_length=100)
     address = models.CharField(max_length=200)
+    email = models.EmailField(default="")
     phone = models.CharField(max_length=30)
-    picture = models.ImageField(upload_to='profile_pictures/')#/media/profile_pictures/user1.jpg
-
+    picture = models.ImageField(
+        upload_to="profile_pictures/"
+    )  # /media/profile_pictures/user1.jpg

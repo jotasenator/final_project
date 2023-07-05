@@ -6,7 +6,6 @@ from capstone.views import (
     index,
     login_view,
     logout_view,
-    register,
     submit_issue,
 )
 from capstone.models import User, Issue
@@ -27,11 +26,6 @@ class TestIndexViewResolution(SimpleTestCase):
         url = reverse("logout")
 
         self.assertEquals(resolve(url).func, logout_view)
-
-    def test_register_url_is_resolved(self):
-        url = reverse("register")
-
-        self.assertEquals(resolve(url).func, register)
 
     def test_submit_issue_url_is_resolved(self):
         url = reverse("submit_issue")
@@ -73,13 +67,6 @@ class TestIndexView(TestCase):
         response = self.client.get(url)
 
         self.assertRedirects(response, "/")
-
-    def test_register_url_is_resolved(self):
-        url = reverse("register")
-        response = self.client.get(url)
-
-        self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, "capstone/register.html")
 
     def test_submit_issue_url(self):
         # Log in the test user

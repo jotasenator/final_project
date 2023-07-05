@@ -1,0 +1,16 @@
+{% extends "capstone/layout.html" %} 
+{% block body %} 
+{% if user.is_authenticated %} 
+{% if user.username == 'admin' %}
+
+<div class="ml-5 mr-5">
+    <h1>{{ profile.user.username }}</h1>
+    <p>Name: {{ profile.name }}</p>
+    <p>Address: {{ profile.address }}</p>
+    <p>Phone: {{ profile.phone }}</p>
+    <img src="{{ profile.picture.url }}" alt="Profile picture" class="rounded-circle" style="width: 100px; height: 100px;">
+</div>
+
+{% endif %} 
+{% endif %} 
+{% endblock %}
