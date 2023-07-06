@@ -1,0 +1,23 @@
+<footer class="bg-light text-lg-start mt-5">
+  <div class="container p-4">
+    <div class="row">
+      <div class="col-lg-6 col-md-12 mb-4 mb-md-0">
+        <h5 class="text-uppercase">{{ company_name }}</h5>
+        <div>
+          <p class="m-0">Address: {{ company_address }}</p>
+          <p class="m-0">Phone: {{ company_phone }}</p>
+          <p class="m-0">Email: {{ company_email }}</p>
+        </div>
+      </div>
+      <div
+        class="col-lg-6 col-md-12 mb-4 mb-md-0 d-flex justify-content-end align-items-center"
+      >      
+      <img src="{{ company_avatar.url|default:'/media/company_logo/logo-placeholder-image.png'}}" alt="{{company_name}} Logo" class="rounded-circle" style="height: 6rem; width: 6rem; object-fit: cover" />      
+      </div>
+    </div>
+  </div>
+  <div class="text-center p-3 footer">
+    <a href="https://cs50.harvard.edu/web/2020/" class="text-decoration-none" target="blank" rel="noopener noreferrer">CS50’s Web Programming with Python and JavaScript</a> | Final Project |
+    <b>Copyright © 2023</b>
+  </div>
+</footer>

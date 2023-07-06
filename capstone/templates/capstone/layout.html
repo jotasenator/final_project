@@ -5,7 +5,10 @@
   <head>
     <title>{% block title %}IT management tool (ITMT){% endblock %}</title>
     {% comment %} country prefix for phones {% endcomment %}
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/intl-tel-input@18.1.1/build/css/intlTelInput.css">
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/intl-tel-input@18.1.1/build/css/intlTelInput.css"
+    />
     <script src="https://cdn.jsdelivr.net/npm/intl-tel-input@18.1.1/build/js/intlTelInput.min.js"></script>
     {% comment %} country prefix for phones {% endcomment %}
 
@@ -72,6 +75,7 @@
     <h1 class="d-flex justify-content-center">ITMT</h1>
     {% endif %}
 
-    <div class="body">{% block body %} {% endblock %}</div>
+    <div class="body content">{% block body %} {% endblock %}</div>
   </body>
+  {% include 'capstone/footer.html' %}
 </html>

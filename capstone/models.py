@@ -20,6 +20,12 @@ class Profile(models.Model):
     email = models.EmailField(default="")
     phone = models.CharField(max_length=30)
     country_code = models.CharField(max_length=10, default="")
-    picture = models.ImageField(
-        upload_to="profile_pictures/"
-    )  # /media/profile_pictures/user1.jpg
+    picture = models.ImageField(upload_to="profile_pictures/")
+
+
+class Footer(models.Model):
+    company_name = models.CharField(max_length=255)
+    company_address = models.CharField(max_length=255)
+    company_phone = models.CharField(max_length=20)
+    company_email = models.EmailField(default="")
+    company_avatar = models.ImageField(upload_to="company_logo/")

@@ -1,7 +1,21 @@
+body {
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+}
+
+.content {
+  flex: 1;
+}
+
 .br-3 {
   border-radius: 1rem;
 }
 
 .fs-24 {
   font-size: 24px;
+}
+
+.footer {
+  background-color: rgba(0, 0, 0, 0.2);
 }
