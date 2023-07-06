@@ -4,7 +4,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.urls import reverse
 
-from .models import User, Issue, Profile, Footer
+from .models import User, Issue, Profile, Footer, Intranet
 
 from django.contrib.auth.password_validation import validate_password
 from django.core.exceptions import ValidationError
@@ -161,8 +161,9 @@ def user_profile(request, username):
 
 
 @login_required
-def update_footer(request):
+def customize_app(request):
     footer = Footer.objects.first()
+    intranet = Intranet.objects.first()
 
     if request.method == "POST":
         footer.company_name = request.POST["company_name"]
@@ -174,14 +175,6 @@ def update_footer(request):
             footer.company_avatar = request.FILES["company_avatar"]
         footer.save()
 
-    return render(
-        request,
-        "capstone/update_footer.html",
-        {
-            "company_name": footer.company_name,
-            "company_address": footer.company_address,
-            "company_phone": footer.company_phone,
-            "company_email": footer.company_email,
-            "company_avatar": footer.company_avatar,
-        },
-    )
+        intranet.company_intranet = request.POST["company_intranet"]
+
+    return render(request, "capstone/customize_app.html")

@@ -29,3 +29,7 @@ class Footer(models.Model):
     company_phone = models.CharField(max_length=20)
     company_email = models.EmailField(default="")
     company_avatar = models.ImageField(upload_to="company_logo/")
+
+
+class Intranet(models.Model):
+    company_intranet = models.CharField(max_length=255)

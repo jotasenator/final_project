@@ -15,6 +15,6 @@ urlpatterns = [
     path("users", views.users, name="users"),
     path("create_profile", views.create_profile, name="create_profile"),
     path("user_profile/<str:username>", views.user_profile, name="user_profile"),
-    path("update_footer", views.update_footer, name="update_footer"),
+    path("customize_app", views.customize_app, name="customize_app"),
     
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

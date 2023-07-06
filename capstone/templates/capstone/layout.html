@@ -28,8 +28,7 @@
 
   <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
-      <a class="navbar-brand" href="#">Intranet</a>
-
+      <a class="navbar-brand" href="{{ company_intranet|default:'#'}}" rel="noopener noreferrer" target="{{ company_intranet|yesno:'blank' }}">Intranet</a>
       <div class="navbar-collapse">
         <ul class="navbar-nav mr-auto">
           {% if user.is_authenticated %}

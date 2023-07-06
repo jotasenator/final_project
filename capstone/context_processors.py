@@ -10,3 +10,9 @@ def footer_processor(request):
         "company_email": footer.company_email,
         "company_avatar": footer.company_avatar,
     }
+
+def intranet_processor(request):
+    intranet = Intranet.objects.first()
+    return {
+        "company_intranet": intranet.company_intranet,
+    }
