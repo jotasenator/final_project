@@ -87,7 +87,7 @@ def users(request):
 
 
 @login_required
-def create_profile(request):
+def create_user(request):
     if request.method == "POST":
         name = request.POST["name"]
         username = request.POST["username"]
@@ -102,7 +102,7 @@ def create_profile(request):
         if User.objects.filter(username=username).exists():
             return render(
                 request,
-                "capstone/create_profile.html",
+                "capstone/create_user.html",
                 {
                     "error": "A user with that username already exists",
                     "name": name,
@@ -119,7 +119,7 @@ def create_profile(request):
         if password != confirm_password:
             return render(
                 request,
-                "capstone/create_profile.html",
+                "capstone/create_user.html",
                 {
                     "error": "Passwords do not match",
                     "name": name,
@@ -147,11 +147,11 @@ def create_profile(request):
 
         return render(
             request,
-            "capstone/create_profile.html",
+            "capstone/create_user.html",
             {"message": "Profile created successfully"},
         )
 
-    return render(request, "capstone/create_profile.html")
+    return render(request, "capstone/create_user.html")
 
 
 @login_required
@@ -178,3 +178,7 @@ def customize_app(request):
         intranet.company_intranet = request.POST["company_intranet"]
 
     return render(request, "capstone/customize_app.html")
+
+@login_required
+def create_pc(request):
+    return render(request, "capstone/create_pc.html")
