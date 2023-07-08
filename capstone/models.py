@@ -59,9 +59,9 @@ class Computer(models.Model):
     ram_memory_model = models.CharField(max_length=255)
     ram_memory_serial_number = models.CharField(max_length=255, unique=True)
 
-    microprocesor_brand = models.CharField(max_length=255)
-    microprocesor_memory_model = models.CharField(max_length=255)
-    microprocesor_serial_number = models.CharField(max_length=255, unique=True)
+    microprocessor_brand = models.CharField(max_length=255)
+    microprocessor_model = models.CharField(max_length=255)
+    microprocessor_serial_number = models.CharField(max_length=255, unique=True)
 
     psu_internal_brand = models.CharField(max_length=255)
     psu_internal_model = models.CharField(max_length=255)
