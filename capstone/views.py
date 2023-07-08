@@ -4,7 +4,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.urls import reverse
 
-from .models import User, Issue, Profile, Footer, Intranet
+from .models import User, Issue, Profile, Footer, Intranet, Computer
 
 from django.contrib.auth.password_validation import validate_password
 from django.core.exceptions import ValidationError
@@ -12,6 +12,8 @@ from django.core.exceptions import ValidationError
 from django.contrib import messages
 
 from django.contrib.auth.decorators import login_required
+
+from .forms import ComputerForm
 
 
 def index(request, unknown_path=None):
@@ -148,7 +150,7 @@ def create_user(request):
         return render(
             request,
             "capstone/create_user.html",
-            {"message": "Profile created successfully"},
+            {"message": "User created successfully"},
         )
 
     return render(request, "capstone/create_user.html")
@@ -179,6 +181,38 @@ def customize_app(request):
 
     return render(request, "capstone/customize_app.html")
 
+
 @login_required
 def create_pc(request):
-    return render(request, "capstone/create_pc.html")
+    users = (
+        User.objects.all()
+        .exclude(is_superuser=True)
+        .exclude(username="admin")
+        .order_by("username")
+    )
+
+    if request.method == "POST":
+        department = request.POST["department"]
+        responsible = request.POST["responsible"]
+
+        form = ComputerForm(request.POST)
+        if form.is_valid():
+            computer = form.save(
+                commit=False
+            )  # commit=False is to not save the computer to the database yet
+            computer.department = department
+            computer.responsible = responsible
+            computer.save()
+            messages.success(request, "Computer created successfully!")
+            return redirect("create_pc")
+    else:
+        form = ComputerForm()
+
+    return render(
+        request,
+        "capstone/create_pc.html",
+        {
+            "users": users,
+            "form": form,
+        },
+    )

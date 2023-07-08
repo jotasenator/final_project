@@ -39,7 +39,7 @@ class Intranet(models.Model):
 class Computer(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    responsible = models.CharField(max_length=255, default="")
 
     department = models.CharField(max_length=255)
 
