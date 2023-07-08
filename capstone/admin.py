@@ -7,11 +7,15 @@ admin.site.register(User)
 admin.site.register(Profile)
 admin.site.register(Footer)
 admin.site.register(Intranet)
-admin.site.register(Computer)
 
 
 class IssueAdmin(admin.ModelAdmin):
     readonly_fields = ("created_at",)
 
 
+class ComputerAdmin(admin.ModelAdmin):
+    readonly_fields = ("created_at",)
+
+
 admin.site.register(Issue, IssueAdmin)
+admin.site.register(Computer, ComputerAdmin)

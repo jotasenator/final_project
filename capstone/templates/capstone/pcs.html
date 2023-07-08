@@ -1,0 +1,19 @@
+{% extends "capstone/layout.html" %} 
+{% block body %} 
+{% if user.is_authenticated %} 
+{% if user.username == 'admin' %}
+
+<div class="ml-5 mr-5">
+    <h1>Users</h1>
+    <ul class="ml-3">
+      {% for pc in pcs %}
+      <li>
+        <a class=' text-decoration-none fs-24' href="{% url 'pc_profile' pc.computer_name %}">{{ pc.computer_name }}</a>
+      </li>
+      {% endfor %}
+    </ul>
+  </div>
+
+{% endif %}
+{% endif %}
+{% endblock %}

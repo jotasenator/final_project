@@ -1,7 +1,7 @@
 from django.contrib.auth import authenticate, login, logout
 from django.db import IntegrityError
 from django.http import HttpResponse, HttpResponseRedirect
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
 
 from .models import User, Issue, Profile, Footer, Intranet, Computer
@@ -17,8 +17,6 @@ from .forms import ComputerForm
 
 
 def index(request, unknown_path=None):
-    if unknown_path is not None:
-        return redirect("index")
     return render(request, "capstone/index.html")
 
 
@@ -216,3 +214,15 @@ def create_pc(request):
             "form": form,
         },
     )
+
+
+@login_required
+def pcs(request):
+    pcs = Computer.objects.all().order_by("-department", "computer_name")
+    return render(request, "capstone/pcs.html", {"pcs": pcs})
+
+
+@login_required
+def pc_profile(request, computer_name):
+    computer = get_object_or_404(Computer, computer_name=computer_name)
+    return render(request, "capstone/pc_profile.html", {"computer": computer})

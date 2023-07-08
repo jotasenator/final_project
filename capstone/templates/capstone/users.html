@@ -2,6 +2,7 @@
 {% block body %}
  {% if user.is_authenticated %} 
  {% if user.username == 'admin' %}
+
 <div class="ml-5 mr-5">
   <h1>Users</h1>
   <ul class="ml-3">
@@ -12,6 +13,7 @@
     {% endfor %}
   </ul>
 </div>
+
 {% endif %} 
 {% endif %} 
 {% endblock %}
