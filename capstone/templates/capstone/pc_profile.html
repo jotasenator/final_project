@@ -5,83 +5,183 @@
 <div class="d-flex justify-content-center">
   <div class="card ml-5 mr-5 br-3 mt-5">
     <div class="card-body">
-      <h1 class="card-title text-center">{{ computer.computer_name }}</h1>
-      <p class="card-text"><b>Department:</b> {{ computer.department }}</p>
-      <p class="card-text responsible"><b>Responsible:</b> {{ computer.responsible|default:'Not assigned yet' }}</p>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="flex-grow-1 text-center">
+          <h3 class="m-0">{{ computer.computer_name }}</h3>
+        </div>
+        <div class="float-right ml-auto  ">
+          <form
+            action="{% url 'edit_pc' computer.computer_name %}"
+            method="get"
+          >
+            <button class="btn btn-primary" type="submit">Edit</button>
+          </form>
+        </div>
+      </div>
+      <hr>
+      <p class="card-text mt-3"><b>Department:</b> {{ computer.department }}</p>
+      <p class="card-text responsible">
+        <b>Responsible:</b>
+        {% if computer.responsible %}
+        <a
+          class="text-decoration-none"
+          href="{% url 'user_profile' computer.responsible %}"
+          >{{ computer.responsible }}</a
+        >
+        {% else %} Not assigned yet {% endif %}
+      </p>
       <p class="card-text"><b>Seal number:</b> {{ computer.seal_number }}</p>
-      <p class="card-text"><b>Inventory number:</b> {{ computer.inventory_number_pc }}</p>
-      
-      <p class="card-text"><b>Motherboard brand:</b> {{ computer.motherboard_brand }}</p>
-      <p class="card-text"><b>Motherboard model:</b> {{ computer.motherboard_model}}</p>
-      <p class="card-text"><b>Motherboard serial number:</b> {{ computer.motherboard_serial_number}}</p>
-      
-      <p class="card-text"><b>Hard disk brand:</b> {{ computer.hard_disk_brand }}</p>
-      <p class="card-text"><b>Hard disk model:</b> {{ computer.hard_disk_model}}</p>
-      <p class="card-text"><b>Hard disk serial number:</b> {{ computer.hard_disk_serial_number}}</p>
-      
-      <p class="card-text"><b>RAM memory brand:</b> {{ computer.ram_memory_brand }}</p>
-      <p class="card-text"><b>RAM disk model:</b> {{ computer.ram_memory_model}}</p>
-      <p class="card-text"><b>RAM disk serial number:</b> {{ computer.ram_memory_serial_number}}</p>
-      
-      <p class="card-text"><b>Microprocessor brand:</b> {{ computer.microprocessor_brand }}</p>
-      <p class="card-text"><b>Microprocessor model:</b> {{ computer.microprocessor_model}}</p>
-      <p class="card-text"><b>Microprocessor serial number:</b> {{ computer.microprocessor_serial_number}}</p>
-      
-      <p class="card-text"><b>PSU internal brand:</b> {{ computer.psu_internal_brand }}</p>
-      <p class="card-text"><b>PSU internal model:</b> {{ computer.psu_internal_model}}</p>
-      <p class="card-text"><b>PSU internal serial number:</b> {{ computer.psu_internal_serial_number}}</p>
-      
-      <p class="card-text"><b>CD DVD reader brand:</b> {{ computer.cd_dvd_reader_brand }}</p>
-      <p class="card-text"><b>CD DVD reader model:</b> {{ computer.cd_dvd_reader_model}}</p>
-      <p class="card-text"><b>CD DVD reader serial number:</b> {{ computer.cd_dvd_reader_serial_number}}</p>
-      
-      <p class="card-text"><b>Monitor brand:</b> {{ computer.monitor_brand }}</p>
-      <p class="card-text"><b>Monitor model:</b> {{ computer.monitor_model}}</p>
-      <p class="card-text"><b>Monitor serial number:</b> {{ computer.monitor_serial_number}}</p>
-      <p class="card-text"><b>Monitor inventory number:</b> {{ computer.monitor_inventory_number}}</p>
-      
-      <p class="card-text"><b>Keyboard brand:</b> {{ computer.keyboard_brand }}</p>
-      <p class="card-text"><b>Keyboard model:</b> {{ computer.keyboard_model}}</p>
-      <p class="card-text"><b>Keyboard serial number:</b> {{ computer.keyboard_serial_number}}</p>
-      <p class="card-text"><b>Keyboard inventory number:</b> {{ computer.keyboard_inventory_number}}</p>
-      
+      <p class="card-text">
+        <b>Inventory number:</b> {{ computer.inventory_number_pc }}
+      </p>
+
+      <p class="card-text">
+        <b>Motherboard brand:</b> {{ computer.motherboard_brand }}
+      </p>
+      <p class="card-text">
+        <b>Motherboard model:</b> {{ computer.motherboard_model }}
+      </p>
+      <p class="card-text">
+        <b>Motherboard serial number:</b> {{ computer.motherboard_serial_number}}
+      </p>
+
+      <p class="card-text">
+        <b>Hard disk brand:</b> {{ computer.hard_disk_brand }}
+      </p>
+      <p class="card-text">
+        <b>Hard disk model:</b> {{ computer.hard_disk_model }}
+      </p>
+      <p class="card-text">
+        <b>Hard disk serial number:</b> {{ computer.hard_disk_serial_number }}
+      </p>
+
+      <p class="card-text">
+        <b>RAM memory brand:</b> {{ computer.ram_memory_brand }}
+      </p>
+      <p class="card-text">
+        <b>RAM disk model:</b> {{ computer.ram_memory_model }}
+      </p>
+      <p class="card-text">
+        <b>RAM disk serial number:</b> {{ computer.ram_memory_serial_number }}
+      </p>
+
+      <p class="card-text">
+        <b>Microprocessor brand:</b> {{ computer.microprocessor_brand }}
+      </p>
+      <p class="card-text">
+        <b>Microprocessor model:</b> {{ computer.microprocessor_model}}
+      </p>
+      <p class="card-text">
+        <b>Microprocessor serial number:</b> {{ computer.microprocessor_serial_number }}
+      </p>
+
+      <p class="card-text">
+        <b>PSU internal brand:</b> {{ computer.psu_internal_brand }}
+      </p>
+      <p class="card-text">
+        <b>PSU internal model:</b> {{ computer.psu_internal_model }}
+      </p>
+      <p class="card-text">
+        <b>PSU internal serial number:</b> {{ computer.psu_internal_serial_number }}
+      </p>
+
+      <p class="card-text">
+        <b>CD DVD reader brand:</b> {{ computer.cd_dvd_reader_brand }}
+      </p>
+      <p class="card-text">
+        <b>CD DVD reader model:</b> {{ computer.cd_dvd_reader_model}}
+      </p>
+      <p class="card-text">
+        <b>CD DVD reader serial number:</b> {{ computer.cd_dvd_reader_serial_number }}
+      </p>
+
+      <p class="card-text">
+        <b>Monitor brand:</b> {{ computer.monitor_brand }}
+      </p>
+      <p class="card-text"><b>Monitor model:</b> {{ computer.monitor_model }}</p>
+      <p class="card-text">
+        <b>Monitor serial number:</b> {{ computer.monitor_serial_number }}
+      </p>
+      <p class="card-text">
+        <b>Monitor inventory number:</b> {{ computer.monitor_inventory_number }}
+      </p>
+
+      <p class="card-text">
+        <b>Keyboard brand:</b> {{ computer.keyboard_brand }}
+      </p>
+      <p class="card-text">
+        <b>Keyboard model:</b> {{ computer.keyboard_model }}
+      </p>
+      <p class="card-text">
+        <b>Keyboard serial number:</b> {{ computer.keyboard_serial_number }}
+      </p>
+      <p class="card-text">
+        <b>Keyboard inventory number:</b> {{ computer.keyboard_inventory_number }}
+      </p>
+
       <p class="card-text"><b>Mouse brand:</b> {{ computer.mouse_brand }}</p>
       <p class="card-text"><b>Mouse model:</b> {{ computer.mouse_model}}</p>
-      <p class="card-text"><b>Mouse serial number:</b> {{ computer.mouse_serial_number}}</p>
-      <p class="card-text"><b>Mouse inventory number:</b> {{ computer.mouse_inventory_number}}</p>
-      
-      <p class="card-text"><b>Speakers brand:</b> {{ computer.speakers_brand }}</p>
-      <p class="card-text"><b>Speakers model:</b> {{ computer.speakers_model}}</p>
-      <p class="card-text"><b>Speakers serial number:</b> {{ computer.speakers_serial_number}}</p>
-      <p class="card-text"><b>Speakers inventory number:</b> {{ computer.speakers_inventory_number}}</p>
-      
-      <p class="card-text"><b>Printer brand:</b> {{ computer.printer_brand }}</p>
-      <p class="card-text"><b>Printer model:</b> {{ computer.printer_model}}</p>
-      <p class="card-text"><b>Printer serial number:</b> {{ computer.printer_serial_number}}</p>
-      <p class="card-text"><b>Printer inventory number:</b> {{ computer.printer_inventory_number}}</p>
-      
-      <p class="card-text"><b>PSU external brand:</b> {{ computer.psu_external_brand }}</p>
-      <p class="card-text"><b>PSU external model:</b> {{ computer.psu_external_model}}</p>
-      <p class="card-text"><b>PSU external serial number:</b> {{ computer.psu_external_serial_number}}</p>
-      <p class="card-text"><b>PSU external inventory number:</b> {{ computer.psu_external_inventory_number}}</p>
-      <hr>
+      <p class="card-text">
+        <b>Mouse serial number:</b> {{ computer.mouse_serial_number }}
+      </p>
+      <p class="card-text">
+        <b>Mouse inventory number:</b> {{ computer.mouse_inventory_number }}
+      </p>
+
+      <p class="card-text">
+        <b>Speakers brand:</b> {{ computer.speakers_brand }}
+      </p>
+      <p class="card-text">
+        <b>Speakers model:</b> {{ computer.speakers_model }}
+      </p>
+      <p class="card-text">
+        <b>Speakers serial number:</b> {{ computer.speakers_serial_number }}
+      </p>
+      <p class="card-text">
+        <b>Speakers inventory number:</b> {{ computer.speakers_inventory_number }}
+      </p>
+
+      <p class="card-text">
+        <b>Printer brand:</b> {{ computer.printer_brand }}
+      </p>
+      <p class="card-text"><b>Printer model:</b> {{ computer.printer_model }}</p>
+      <p class="card-text">
+        <b>Printer serial number:</b> {{ computer.printer_serial_number }}
+      </p>
+      <p class="card-text">
+        <b>Printer inventory number:</b> {{ computer.printer_inventory_number }}
+      </p>
+
+      <p class="card-text">
+        <b>PSU external brand:</b> {{ computer.psu_external_brand }}
+      </p>
+      <p class="card-text">
+        <b>PSU external model:</b> {{ computer.psu_external_model }}
+      </p>
+      <p class="card-text">
+        <b>PSU external serial number:</b> {{ computer.psu_external_serial_number }}
+      </p>
+      <p class="card-text">
+        <b>PSU external inventory number:</b> {{ computer.psu_external_inventory_number }}
+      </p>
+      <hr />
       <p class="card-text"><b>Created at:</b> {{ computer.created_at }}</p>
     </div>
   </div>
 </div>
-  {% endif %} 
-  {% endif %}
-  <script>
-    const responsibleElement = document.querySelector('.responsible')
-    const responsible = "{{ computer.responsible }}";
+{% endif %} 
+{% endif %}
+<script>
+  const responsibleElement = document.querySelector(".responsible");
+  const responsible = "{{ computer.responsible }}";
 
-    if(!responsible){
-      responsibleElement.classList.remove('alert', 'alert-success')
-      responsibleElement.classList.add('alert', 'alert-warning') 
-    }
-    if(responsible){
-      responsibleElement.classList.remove('alert', 'alert-warning')
-      responsibleElement.classList.add('alert', 'alert-success') 
-    } 
-  </script>
-  {% endblock %}
+  if (!responsible) {
+    responsibleElement.classList.remove("alert", "alert-success");
+    responsibleElement.classList.add("alert", "alert-warning");
+  }
+  if (responsible) {
+    responsibleElement.classList.remove("alert", "alert-warning");
+    responsibleElement.classList.add("alert", "alert-success");
+  }
+</script>
+{% endblock %}

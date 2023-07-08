@@ -226,3 +226,34 @@ def pcs(request):
 def pc_profile(request, computer_name):
     computer = get_object_or_404(Computer, computer_name=computer_name)
     return render(request, "capstone/pc_profile.html", {"computer": computer})
+
+
+@login_required
+def edit_pc(request, computer_name):
+    computer = get_object_or_404(Computer, computer_name=computer_name)
+
+    users = (
+        User.objects.all()
+        .exclude(is_superuser=True)
+        .exclude(username="admin")
+        .order_by("username")
+    )
+
+    if request.method == "POST":
+        department = request.POST["department"]
+        responsible = request.POST["responsible"]
+
+        form = ComputerForm(request.POST, instance=computer)
+        if form.is_valid():
+            computer = form.save(
+                commit=False
+            )  # commit=False is to not save the computer to the database yet
+            computer.department = department
+            computer.responsible = responsible
+            computer.save()
+            messages.success(request, "Computer updated successfully!")
+            return redirect("edit_pc", computer_name=computer_name)
+    else:
+        form = ComputerForm(instance=computer)
+
+    return render(request, "capstone/edit_pc.html", {"form": form, "users": users})

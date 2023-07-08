@@ -1,0 +1,55 @@
+{% extends "capstone/layout.html" %} 
+{% block body %} 
+{% if user.is_authenticated %} 
+{% if user.username == 'admin' %}
+
+<div class="container mt-5 border p-3 br-3">
+  {% if messages %}
+  <ul class="list-unstyled mt-3">
+    {% for message in messages %}
+    <li class="alert alert-success">Computer edited successfully!</li>
+    {% endfor %}
+  </ul>
+  {% endif %}
+
+  <h3 class="mb-3 text-center">Edit PC</h3>
+  <hr>
+  <form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div class="form-group">
+      <label for="name">Department:</label>
+      <input
+        class="form-control"
+        type="text"
+        name="department"
+        id="department"
+        value="{{form.instance.department}}"
+        required
+      />
+    </div>
+    <div class="form-group">
+      <label for="name">Responsible:</label>
+      <select class="form-control" name="responsible" id="responsible">
+        <option value=""></option>
+        {% for user in users %}
+        <option value="{{ user.username }}" {% if user.username == form.instance.responsible %}selected{% endif %}>{{ user.username }}</option>
+        {% endfor %}
+      </select>
+    </div>
+    {% comment %} to many fields so we need form.as_p {% endcomment %}
+    <div class="form-group">
+    {{form.as_p}}
+    </div> 
+    <button type="submit" class="btn btn-primary mt-3">Save changes</button>
+  </form>
+</div>
+
+{% endif %} 
+{% endif %} 
+<script>
+  setTimeout(() => {
+    const messageElement = document.querySelector(".alert");
+    messageElement && messageElement.classList.add("d-none");
+  }, 2500);
+</script>
+{% endblock %}
