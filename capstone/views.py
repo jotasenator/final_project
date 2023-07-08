@@ -161,6 +161,14 @@ def user_profile(request, username):
 
 
 @login_required
+def delete_user(request, username):
+    user = get_object_or_404(User, username=username)
+    user.delete()
+    messages.success(request, "User deleted successfully!")
+    return redirect("users")
+
+
+@login_required
 def customize_app(request):
     footer = Footer.objects.first()
     intranet = Intranet.objects.first()

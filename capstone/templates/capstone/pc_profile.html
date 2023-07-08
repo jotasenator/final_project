@@ -194,8 +194,8 @@
     responsibleElement.classList.add("alert", "alert-success");
   }
 
-  const deleteForm = document.querySelector('#delete-pc');
-  deleteForm.addEventListener('submit', (event)=> {
+  const deletePCForm = document.querySelector('#delete-pc');
+  deletePCForm.addEventListener('submit', (event)=> {
     const confirmed = confirm('Are you sure you want to delete this computer?');
     if (!confirmed) {
       event.preventDefault();
