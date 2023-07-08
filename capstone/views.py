@@ -257,3 +257,11 @@ def edit_pc(request, computer_name):
         form = ComputerForm(instance=computer)
 
     return render(request, "capstone/edit_pc.html", {"form": form, "users": users})
+
+
+@login_required
+def delete_pc(request, computer_name):
+    computer = get_object_or_404(Computer, computer_name=computer_name)
+    computer.delete()
+    messages.success(request, "Computer deleted successfully!")
+    return redirect("pcs")

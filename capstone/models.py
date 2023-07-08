@@ -44,7 +44,7 @@ class Computer(models.Model):
     department = models.CharField(max_length=255)
 
     seal_number = models.CharField(max_length=255, unique=True)
-    computer_name = models.CharField(max_length=255)
+    computer_name = models.CharField(max_length=255, unique=True)
     inventory_number_pc = models.CharField(max_length=255)
 
     motherboard_brand = models.CharField(max_length=255)

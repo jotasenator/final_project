@@ -20,5 +20,6 @@ urlpatterns = [
     path("pc_profile/<str:computer_name>", views.pc_profile, name="pc_profile"),
     path("pcs", views.pcs, name="pcs"),
     path("edit_pc/<str:computer_name>", views.edit_pc, name="edit_pc"),
-    
+    path("delete_pc/<str:computer_name>", views.delete_pc, name="delete_pc"),
+
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
