@@ -75,6 +75,12 @@ def reports(request):
     return render(request, "capstone/reports.html", {"issues": issues})
 
 
+def delete_issue(request, issue_id):
+    issue = Issue.objects.get(id=issue_id)
+    issue.delete()
+    return redirect("reports")
+
+
 @login_required
 def users(request):
     users = (

@@ -12,6 +12,7 @@ urlpatterns = [
     path("logout", views.logout_view, name="logout"),
     path("submit_issue", views.submit_issue, name="submit_issue"),
     path("reports", views.reports, name="reports"),
+    path("issue/<int:issue_id>/delete/", views.delete_issue, name="delete_issue"),
     path("users", views.users, name="users"),
     path("create_user", views.create_user, name="create_user"),
     path("user_profile/<str:username>", views.user_profile, name="user_profile"),
