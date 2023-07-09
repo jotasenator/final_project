@@ -15,6 +15,8 @@ from django.contrib.auth.decorators import login_required
 
 from .forms import ComputerForm
 
+from django.db.models.functions import Lower
+
 
 def index(request, unknown_path=None):
     return render(request, "capstone/index.html")
@@ -81,7 +83,7 @@ def users(request):
         User.objects.all()
         .exclude(is_superuser=True)
         .exclude(username="admin")
-        .order_by("username")
+        .order_by(Lower("username"))
     )
     return render(request, "capstone/users.html", {"users": users})
 
@@ -90,7 +92,7 @@ def users(request):
 def create_user(request):
     if request.method == "POST":
         name = request.POST["name"]
-        username = request.POST["username"]
+        username = request.POST["username"].capitalize()
         address = request.POST["address"]
         email = request.POST["email"]
         phone = request.POST["phone"]
@@ -169,7 +171,7 @@ def edit_user(request, username):
 
     if request.method == "POST":
         name = request.POST.get("name")
-        username = request.POST.get("username")
+        username = request.POST.get("username").capitalize()
         address = request.POST.get("address")
         email = request.POST.get("email")
         password = request.POST.get("password")
@@ -250,7 +252,7 @@ def create_pc(request):
     )
 
     if request.method == "POST":
-        department = request.POST["department"]
+        department = request.POST["department"].capitalize()
         responsible = request.POST["responsible"]
 
         form = ComputerForm(request.POST)
@@ -276,10 +278,19 @@ def create_pc(request):
     )
 
 
+from django.db.models import Prefetch
+
+
 @login_required
 def pcs(request):
-    pcs = Computer.objects.all().order_by("-department", "computer_name")
-    return render(request, "capstone/pcs.html", {"pcs": pcs})
+    pcs = Computer.objects.all().order_by(Lower("department"), Lower("computer_name"))
+    departments = set(pc.department for pc in pcs)
+    pcs_by_department = {department: [] for department in departments}
+    for pc in pcs:
+        pcs_by_department[pc.department].append(pc)
+    return render(
+        request, "capstone/pcs.html", {"pcs_by_department": pcs_by_department}
+    )
 
 
 @login_required
@@ -310,9 +321,10 @@ def edit_pc(request, computer_name):
             )  # commit=False is to not save the computer to the database yet
             computer.department = department
             computer.responsible = responsible
+            computer.computer_name = computer.computer_name.capitalize()
             computer.save()
             messages.success(request, "Computer updated successfully!")
-            return redirect("edit_pc", computer_name=computer_name)
+            return redirect("edit_pc", computer_name=computer.computer_name)
     else:
         form = ComputerForm(instance=computer)
 

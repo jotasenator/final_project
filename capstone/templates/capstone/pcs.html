@@ -6,14 +6,19 @@
 <div class="ml-5 mr-5">
     <h1>Pcs</h1>
     <ul class="ml-3">
-      {% for pc in pcs %}
-      <li>
-        <a class=' text-decoration-none fs-24' href="{% url 'pc_profile' pc.computer_name %}">
-          {{ pc.computer_name }}
-        </a>
-      </li>
+      {% for department, pcs in pcs_by_department.items %}
+        <li>{{ department }}</li>
+        <ul>
+          {% for pc in pcs %}
+            <li>
+              <a class=' text-decoration-none fs-24' href="{% url 'pc_profile' pc.computer_name %}">
+                {{ pc.computer_name }}
+              </a>
+            </li>
+          {% endfor %}
+        </ul>
       {% endfor %}
-    </ul>
+    </ul>    
   </div>
 
 {% endif %}
