@@ -217,7 +217,6 @@ def edit_user(request, username):
 def delete_user(request, username):
     user = get_object_or_404(User, username=username)
     user.delete()
-    messages.success(request, "User deleted successfully!")
     return redirect("users")
 
 
@@ -324,5 +323,4 @@ def edit_pc(request, computer_name):
 def delete_pc(request, computer_name):
     computer = get_object_or_404(Computer, computer_name=computer_name)
     computer.delete()
-    messages.success(request, "Computer deleted successfully!")
     return redirect("pcs")
