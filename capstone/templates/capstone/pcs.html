@@ -5,17 +5,21 @@
 
 <div class="container mt-5">
   <h1>Pcs</h1>
+  <hr>
   <ul class="list-group ml-3">
     {% for department, pcs in pcs_by_department.items %}      
       <ol class=" ml-3">
         <h3 class="text-center">{{ department }}</h3>
         {% for pc in pcs %}
-          <li class="list-group-item">
-            {{forloop.counter}}.
-            <a class='text-decoration-none fs-24' href="{% url 'pc_profile' pc.computer_name %}">
+        
+          <li class=" list-group-item ">
+            <div class="d-flex align-items-center">
+              <span class="badge bg-primary rounded-pill index">{{ forloop.counter }}</span>
+            <a class=' ml-1 text-decoration-none fs-24' href="{% url 'pc_profile' pc.computer_name %}">
               {{ pc.computer_name }}
             </a>
-          </li>
+          </div>
+          </li>        
         {% endfor %}
       </ol>
     {% endfor %}
