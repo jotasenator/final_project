@@ -15,22 +15,35 @@
             <b>Phone:</b>+ {{profile.country_code}} {{ profile.phone }}
           </p>
         </div>
+        
+        {% if profile.picture %}
         <img
           src="{{ profile.picture.url }}"
           class="rounded-circle"
           alt="Profile picture"
           style="height: 6rem; width: 6rem; object-fit: cover"
         />
+        {% else %}
+        <img
+          src="{{ '/media/company_logo/logo-placeholder-image.png' }}"
+          class="rounded-circle"
+          alt="Profile picture"
+          style="height: 6rem; width: 6rem; object-fit: cover"
+        />
+
+        {% endif %}
+          
+        
       </div>
       <hr>
       <div class="float-right ml-auto">
-        {% comment %} <form
+        <form
           class="d-inline-block"
           action="{% url 'edit_user' profile.user.username %}"
           method="get"
         >
           <button class="btn btn-primary" type="submit">Edit</button>
-        </form> {% endcomment %}
+        </form>
         <form
           id="delete-user"
           class=" d-inline-block "

@@ -1,0 +1,211 @@
+{% extends "capstone/layout.html" %} 
+{% block body %} 
+{% if user.is_authenticated %} 
+{% if user.username == 'admin' %}
+
+<div class="container mt-5 border p-3 br-3">
+    {% if messages %}
+  <ul class="list-unstyled mt-3">
+    {% for message in messages %}
+    <li class="alert alert-success">Profile edited successfully!</li>
+    {% endfor %}
+  </ul>
+  {% endif %}
+  <h3 class="mb-3 text-center">Edit USER </h3>
+  <form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div class="form-group">
+      <label for="edit-name">Fullname:</label>
+      <input
+        class="form-control"
+        type="text"
+        name="name"
+        id="edit-name"
+        value="{{profile.name}}"
+        required
+      />
+    </div>
+    <div class="form-group">
+      <label for="edit-username">Username:</label>
+      <input
+        class="form-control"
+        type="text"
+        name="username"
+        id="edit-username"
+        value="{{profile.user.username}}"
+        required
+      />
+    </div>
+    <div class="form-group">
+      <label for="edit-address">Address:</label>
+      <input
+        class="form-control"
+        type="text"
+        name="address"
+        id="edit-address"
+        value="{{profile.address}}"
+        required
+      />
+    </div>
+    <div class="form-group">
+      <label for="edit-email">Email:</label>
+      <input
+        class="form-control"
+        type="email"
+        name="email"
+        id="edit-email"
+        value="{{profile.email}}"
+        required
+      />
+    </div>
+    <div class="form-group">
+      <label for="edit-password">Password:</label>
+      <input
+        class="form-control"
+        type="password"
+        name="password"
+        id="edit-password"
+        value="{{password}}"
+        required
+      />
+    </div>
+    <div class="form-group">
+      <label for="edit-confirm_password">Confirm password:</label>
+      <input
+        class="form-control"
+        type="password"
+        name="confirm_password"
+        id="edit-confirm_password"
+        value="{{confirm_password}}"
+        required
+      />
+    </div>
+    <div class="d-flex justify-content-between">
+      <div class="form-group">
+        <label style="display: block" for="edit-phone">Phone:</label>
+        <input
+          class="form-control"
+          type="tel"
+          name="phone"
+          id="edit-phone"
+          value="{{profile.phone}}"
+          required
+        />
+        <input type="hidden" name="country_code" id="edit-country-code" />
+        <span id="edit-valid-msg" class="d-none text-success">✓ Valid</span>
+        <span id="edit-error-msg" class="d-none text-danger"></span>
+      </div>
+      <div class="form-group">
+        <label for="edit-picture">Picture:</label>
+        <div id="edit-dropzone" class="border p-3 text-center">
+          Drag and drop a picture here or click to select a file.
+          <input
+            class="form-control"
+            type="file"
+            name="picture"
+            id="edit-picture"
+            value="{{picture}}"
+            accept="image/*"
+          />
+        </div>
+      </div>
+    </div>
+    <button type="submit" class="btn btn-primary mt-3">Submit</button>
+  </form>  
+</div>
+{% endif %}
+{% endif %}
+<script>
+    setTimeout(() => {
+      const messageElement = document.querySelector(".alert");
+      messageElement && messageElement.classList.add("d-none");
+    }, 2500);
+  
+    //https://intl-tel-input.com/examples/validation.html
+    const input = document.querySelector("#edit-phone");
+    const errorMsg = document.querySelector("#edit-error-msg");
+    const validMsg = document.querySelector("#edit-valid-msg");
+  
+    // here, the index maps to the error code returned from getValidationError - see readme
+    const errorMap = [
+      "Invalid number",
+      "Invalid country code",
+      "Too short",
+      "Too long",
+      "Invalid number",
+    ];
+  
+    const iti = window.intlTelInput(input, {
+      utilsScript:
+        "https://cdn.jsdelivr.net/npm/intl-tel-input@18.1.1/build/js/utils.js",
+      preferredCountries: ["cu", "us"],
+    });
+  
+    //obtain countryCode on change and place it in the hidden input  
+    const countryCodeInput = document.querySelector("#edit-country-code");
+  
+    input.addEventListener("change", () => {
+      const countryData = iti.getSelectedCountryData();
+      const dialCode = countryData.dialCode;
+      countryCodeInput.value = dialCode;
+    });
+    //obtain countryCode on change and place it in the hidden input
+  
+  
+    const reset = () => {
+      input.classList.remove("error");
+      errorMsg.innerHTML = "";
+      errorMsg.classList.add("d-none");
+      validMsg.classList.add("d-none");
+    };
+  
+    // on blur: validate
+    input.addEventListener("blur", () => {
+      reset();
+      if (input.value.trim()) {
+        if (iti.isValidNumber()) {
+          validMsg.classList.remove("d-none");
+        } else {
+          input.classList.add("error");
+          const errorCode = iti.getValidationError();
+          errorMsg.innerHTML = errorMap[errorCode];
+          errorMsg.classList.remove("d-none");
+        }
+      }
+    });
+  
+    // on keyup / change flag: reset
+    input.addEventListener("change", reset);
+    input.addEventListener("keyup", reset);
+  
+    //drag and drop
+    const dropzone = document.querySelector("#edit-dropzone");
+    const pictureInput = document.querySelector("#edit-picture");
+  
+    // Handle click event on the dropzone
+    dropzone.addEventListener("click", () => {
+      pictureInput.click();
+    });
+  
+    // Handle dragover event on the dropzone
+    dropzone.addEventListener("dragover", (event) => {
+      event.preventDefault();
+      dropzone.classList.add("bg-light");
+    });
+  
+    // Handle dragleave event on the dropzone
+    dropzone.addEventListener("dragleave", () => {
+      dropzone.classList.remove("bg-light");
+    });
+  
+    // Handle drop event on the dropzone
+    dropzone.addEventListener("drop", (event) => {
+      event.preventDefault();
+      dropzone.classList.remove("bg-light");
+  
+      if (event.dataTransfer.files.length) {
+        pictureInput.files = event.dataTransfer.files;
+      }
+    });
+  </script>
+{% endblock %}

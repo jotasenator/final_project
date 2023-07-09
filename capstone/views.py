@@ -51,17 +51,12 @@ def logout_view(request):
 
 @login_required
 def submit_issue(request):
-    print("submit_issue called")
     if request.method == "POST":
         user = request.user
         issue = request.POST["issue"]
         description = request.POST["description"]
-        print(f"issue:{issue}")
-        print(f"description:{description}")
-        print(f"user:{user}")
         new_issue = Issue(issue=issue, description=description, user=user)
         new_issue.save()
-        print(f"new_issue:{new_issue}")
         messages.success(request, "Your issue was submitted successfully!")
         return redirect("index")
     else:
@@ -71,7 +66,6 @@ def submit_issue(request):
 @login_required
 def reports(request):
     issues = Issue.objects.all().order_by("-created_at")
-    print(f"reports {issues}")
     return render(request, "capstone/reports.html", {"issues": issues})
 
 
@@ -164,6 +158,59 @@ def create_user(request):
 def user_profile(request, username):
     profile = Profile.objects.get(user__username=username)
     return render(request, "capstone/user_profile.html", {"profile": profile})
+
+
+@login_required
+def edit_user(request, username):
+    user = get_object_or_404(User, username=username)
+    profile = Profile.objects.get(user__username=username)
+    message = None
+    error = None
+
+    if request.method == "POST":
+        name = request.POST.get("name")
+        username = request.POST.get("username")
+        address = request.POST.get("address")
+        email = request.POST.get("email")
+        password = request.POST.get("password")
+        confirm_password = request.POST.get("confirm_password")
+        phone = request.POST.get("phone")
+        country_code = request.POST.get("country_code")
+        picture = request.FILES.get("picture")
+
+        profile.name = name
+
+        profile.user.username = username
+        # if we don t do this we can not change the username in the server
+        user.username = username
+        user.save()
+
+        profile.address = address
+        profile.email = email
+        profile.phone = phone
+        profile.country_code = country_code
+
+        if picture:
+            profile.picture = picture
+        profile.save()
+
+        try:
+            profile.user.save()
+        except Exception as e:
+            print(f"Error saving username: {e}")
+
+        if password and confirm_password and password == confirm_password:
+            user.set_password(password)
+            user.save()
+        messages.success(request, "Profile updated successfully!")
+        return redirect("edit_user", username=username)
+    return render(
+        request,
+        "capstone/edit_user.html",
+        {
+            "profile": profile,
+        },
+    )
 
 
 @login_required
