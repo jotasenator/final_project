@@ -252,7 +252,7 @@ def create_pc(request):
     )
 
     if request.method == "POST":
-        department = request.POST["department"].capitalize()
+        department = request.POST["department"]
         responsible = request.POST["responsible"]
 
         form = ComputerForm(request.POST)
@@ -260,8 +260,9 @@ def create_pc(request):
             computer = form.save(
                 commit=False
             )  # commit=False is to not save the computer to the database yet
-            computer.department = department
+            computer.department = department.upper()
             computer.responsible = responsible
+            computer.computer_name = computer.computer_name.capitalize()
             computer.save()
             messages.success(request, "Computer created successfully!")
             return redirect("create_pc")
@@ -276,9 +277,6 @@ def create_pc(request):
             "form": form,
         },
     )
-
-
-from django.db.models import Prefetch
 
 
 @login_required
@@ -319,7 +317,7 @@ def edit_pc(request, computer_name):
             computer = form.save(
                 commit=False
             )  # commit=False is to not save the computer to the database yet
-            computer.department = department
+            computer.department = department.upper()
             computer.responsible = responsible
             computer.computer_name = computer.computer_name.capitalize()
             computer.save()
