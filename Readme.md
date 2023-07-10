@@ -38,7 +38,7 @@ MEDIA_ROOT = BASE_DIR / “media”
 MEDIA_URL = “/media/”
 ```
 
-- Find a way to conditionally render an element other than {%if %}{%else%}:
+5. Find a way to conditionally render an element other than {%if %}{%else%}:
 
 ```python
 href=“{{ company_intranet|default:‘#’}}”
@@ -52,9 +52,9 @@ target=“{{ company_intranet|yesno:‘blank’}}”
 
 - This yesno syntax makes me smile and that’s a good thing.
 
-5. Being able to give “admin” user ability to edit footer information, since I was only passing it to footer in one view and needed it in all views and found solution context_processors.py which is like react context and thought it was great.
+6. Being able to give “admin” user ability to edit footer information, since I was only passing it to footer in one view and needed it in all views and found solution context_processors.py which is like react context and thought it was great.
 
-6. When I use the built in form.as_p I needed to check how the bootstrap was inplemented in the input fields I already had in the app so I check the boostrap.css files for copying the styles.
+7. When I use the built in form.as_p I needed to check how the bootstrap was inplemented in the input fields I already had in the app so I check the boostrap.css files for copying the styles.
 
 Basically this app is about entering information, storing it, being able to modify it and delete it if necessary, which does not mean that it does not have levels of complexity that required being overcome. I could add that at least in the companies where I have worked all these years many problems could have been solved if we had had it and been able to use it and until now I have not seen this tool anywhere. You could say that today’s me made this app for yesterday’s me, and yesterday’s me likes it!
 
