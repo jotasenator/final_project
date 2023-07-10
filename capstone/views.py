@@ -238,6 +238,7 @@ def customize_app(request):
         footer.save()
 
         intranet.company_intranet = request.POST["company_intranet"]
+        intranet.save()
 
     return render(request, "capstone/customize_app.html")
 

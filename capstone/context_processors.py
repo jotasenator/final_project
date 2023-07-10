@@ -1,4 +1,4 @@
-from .models import Footer
+from .models import Footer, Intranet
 
 
 def footer_processor(request):
@@ -10,6 +10,7 @@ def footer_processor(request):
         "company_email": footer.company_email,
         "company_avatar": footer.company_avatar,
     }
+
 
 def intranet_processor(request):
     intranet = Intranet.objects.first()

@@ -64,6 +64,7 @@ TEMPLATES = [
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
                 "capstone.context_processors.footer_processor",
+                "capstone.context_processors.intranet_processor",
             ],
         },
     },
